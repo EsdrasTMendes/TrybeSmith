@@ -9,7 +9,6 @@ const getAllUsers = async (): Promise<IUser[]> => {
   return rows as IUser[];
 };
 
-
 export default {
   getAllUsers,
 };
