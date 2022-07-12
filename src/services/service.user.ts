@@ -1,9 +1,10 @@
 import modelUser from '../models/model.user';
 import IUser from '../interfaces/user.interface';
+import JWTToken from '../utils/JWTToken';
 
 interface ResponseCreateUsers {
   status: number,
-  response: IUser
+  response: { token: string },
 }
 
 const getUsers = async (): Promise<IUser[]> => {
@@ -20,7 +21,8 @@ const createUser = async (user: IUser): Promise<ResponseCreateUsers> => {
     level: user.level,
     password: user.password,
   };
-  return { status: 201, response: newUser }; // tenho que retornar o token
+  const token = JWTToken.generateJWTToken(newUser);
+  return { status: 201, response: { token } }; // tenho que retornar o token
 };
 
 export default { getUsers, createUser };
