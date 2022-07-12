@@ -7,4 +7,10 @@ const getAllProducts = async (req: Request, res: Response): Promise<Response> =>
   return res.status(200).json(products);
 };
 
-export default { getAllProducts };
+const createProducts = async (req: Request, res: Response): Promise<Response> => {
+  const { name, amount } = req.body;
+  const newProduct = await serviceProducts.createProducts(name, amount);
+  return res.status(newProduct.status).json(newProduct.response);
+};
+
+export default { getAllProducts, createProducts };
