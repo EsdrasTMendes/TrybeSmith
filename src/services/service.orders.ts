@@ -1,9 +1,25 @@
 import modelOrder from '../models/model.orders';
-import IOrder from '../interfaces/orders.interface';
+import modelProducts from '../models/model.products';
+import IOrders from '../interfaces/orders.interface';
 
-const getAllOrders = async (): Promise<IOrder[]> => {
-  const result = await modelOrder.getAllOrders();
-  return result;
+interface IOrdersResult {
+  status: number,
+  response: IOrders[],
+}
+
+const getAllOrders = async (): Promise<IOrdersResult> => {
+  const orders = await modelOrder.getAllOrders();
+  const products = await modelProducts.getAllProducts();
+  const result = orders.map((order) => ({
+    id: order.id,
+    userId: order.userId,
+    productsIds: products.filter((product) => order.id === product.orderId)
+      .map((productId) => productId.id),
+  }));
+  return {
+    status: 200,
+    response: result,
+  };
 };
 
 export default { getAllOrders };

@@ -1,12 +1,11 @@
-import IOrder from '../interfaces/orders.interface';
+import IOrders from '../interfaces/orders.interface';
 import connection from './connection';
 
-const getAllOrders = async (): Promise<IOrder[]> => {
+const getAllOrders = async (): Promise<IOrders[]> => {
   const [rows] = await connection.execute(
-    `SELECT o.id, o.userID, p.id FROM Trybesmith.Orders AS o
-    INNER JOIN Trybesmith.Products as p ON p.orderId = o.id`,
+    'SELECT * FROM Trybesmith.Orders',
   );
-  return rows as IOrder[];
+  return rows as IOrders[];
 };
 
 export default {
